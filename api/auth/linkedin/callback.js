@@ -53,6 +53,14 @@ export default async function handler(req, res) {
 
     const profile = await profileResponse.json();
 
+    // SECURITY: Only allow specific email addresses (whitelist)
+    const ALLOWED_EMAILS = ['asheeshsrivastava9@gmail.com'];
+
+    if (!ALLOWED_EMAILS.includes(profile.email)) {
+      console.log(`Access denied for email: ${profile.email}`);
+      return res.redirect('/?error=' + encodeURIComponent('Access Denied. This app is private and only accessible to authorized users.'));
+    }
+
     // Create or update user in Supabase
     const { data: existingUser, error: fetchError } = await supabaseAdmin
       .from('auth.users')
