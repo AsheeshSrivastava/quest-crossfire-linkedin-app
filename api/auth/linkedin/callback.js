@@ -54,7 +54,7 @@ export default async function handler(req, res) {
     const profile = await profileResponse.json();
 
     // SECURITY: Only allow specific email addresses (whitelist)
-    const ALLOWED_EMAILS = ['asheeshsrivastava9@gmail.com'];
+    const ALLOWED_EMAILS = ['test@example.com']; // Temporarily changed for testing
 
     if (!ALLOWED_EMAILS.includes(profile.email)) {
       console.log(`Access denied for email: ${profile.email}`);
