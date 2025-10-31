@@ -14,8 +14,14 @@ export default async function handler(req, res) {
   // Generate random state for CSRF protection
   const state = Math.random().toString(36).substring(7);
 
-  // Store state in session/cookie (simple version - use proper session management in production)
-  res.setHeader('Set-Cookie', `linkedin_oauth_state=${state}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=600`);
+  // Store state in session/cookie
+  // Note: For localhost, we need to adjust cookie settings (Secure flag doesn't work with http)
+  const isLocalhost = redirectUri.includes('localhost');
+  const cookieOptions = isLocalhost
+    ? `linkedin_oauth_state=${state}; HttpOnly; SameSite=Lax; Path=/; Max-Age=600`
+    : `linkedin_oauth_state=${state}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=600`;
+
+  res.setHeader('Set-Cookie', cookieOptions);
 
   // LinkedIn OAuth authorization URL
   const authUrl = new URL('https://www.linkedin.com/oauth/v2/authorization');
@@ -24,6 +30,10 @@ export default async function handler(req, res) {
   authUrl.searchParams.append('redirect_uri', redirectUri);
   authUrl.searchParams.append('state', state);
   authUrl.searchParams.append('scope', 'openid profile email w_member_social');
+
+  // Debug: Log the redirect URI being used
+  console.log('LinkedIn OAuth URL:', authUrl.toString());
+  console.log('Redirect URI being sent:', redirectUri);
 
   // Redirect user to LinkedIn
   res.redirect(authUrl.toString());

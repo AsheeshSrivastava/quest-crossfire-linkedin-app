@@ -96,11 +96,16 @@ export default async function handler(req, res) {
       { expiresIn: '7d' }
     );
 
-    // Set session cookie
-    res.setHeader('Set-Cookie', `session=${sessionToken}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${7 * 24 * 60 * 60}`);
+    // Set session cookie (adjust for localhost vs production)
+    const isLocalhost = process.env.LINKEDIN_REDIRECT_URI?.includes('localhost');
+    const cookieOptions = isLocalhost
+      ? `session=${sessionToken}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${7 * 24 * 60 * 60}`
+      : `session=${sessionToken}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${7 * 24 * 60 * 60}`;
 
-    // Redirect to dashboard
-    res.redirect('/dashboard.html');
+    res.setHeader('Set-Cookie', cookieOptions);
+
+    // Redirect to main app (index.html)
+    res.redirect('/');
 
   } catch (error) {
     console.error('LinkedIn OAuth error:', error);
