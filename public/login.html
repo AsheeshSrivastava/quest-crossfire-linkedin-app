@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Quest And Crossfire™ AI LinkedIn Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #2C2C2C 0%, #1a1a1a 100%);
+            color: #F5F5F0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .login-header {
+            background: #2C2C2C;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .diamond {
+            color: #D4A574;
+            font-size: 36px;
+            margin: 15px 0;
+        }
+
+        .tagline {
+            color: #D4A574;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #B8B8B8;
+        }
+
+        .login-body {
+            padding: 50px 40px;
+            text-align: center;
+            color: #333;
+        }
+
+        .login-body h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #2C2C2C;
+        }
+
+        .login-body p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        .linkedin-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 18px 30px;
+            background: #0A66C2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .linkedin-btn:hover {
+            background: #004182;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(10, 102, 194, 0.3);
+        }
+
+        .linkedin-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .features {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon {
+            color: #D4A574;
+            font-size: 20px;
+            margin-top: 2px;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-text h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #2C2C2C;
+            margin-bottom: 5px;
+        }
+
+        .feature-text p {
+            font-size: 13px;
+            color: #888;
+            margin: 0;
+        }
+
+        .privacy-note {
+            margin-top: 30px;
+            padding: 20px;
+            background: #F5F5F0;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .error-message {
+            background: #F4E8D8;
+            color: #2C2C2C;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #D4A574;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">Quest And Crossfire™</div>
+            <div class="diamond">◇</div>
+            <div class="tagline">Small fixes, big clarity.</div>
+            <div class="subtitle">AI LinkedIn Post Generator</div>
+        </div>
+
+        <div class="login-body">
+            <div id="errorMessage" class="error-message"></div>
+
+            <h2>Welcome Back</h2>
+            <p>Generate authentic LinkedIn posts with AI that embodies your brand philosophy.</p>
+
+            <a href="/api/auth/linkedin" class="linkedin-btn">
+                <svg class="linkedin-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                Continue with LinkedIn
+            </a>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">◇</div>
+                    <div class="feature-text">
+                        <h3>Authentic Voice</h3>
+                        <p>AI trained on Quest And Crossfire philosophy and brand voice</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">◇</div>
+                    <div class="feature-text">
+                        <h3>Post History</h3>
+                        <p>Save drafts, view past posts, and track performance</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">◇</div>
+                    <div class="feature-text">
+                        <h3>Smart Scheduling</h3>
+                        <p>Post instantly or schedule for optimal times</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-note">
+                <strong>Privacy & Security:</strong> We only access your LinkedIn profile and posting permissions. Your data is encrypted and never shared. You can revoke access anytime from LinkedIn settings.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check for error in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+
+        if (error) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = `◇ ${decodeURIComponent(error)}`;
+            errorEl.classList.add('show');
+        }
+
+        // Check if user is already logged in
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/check', {
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    // Already logged in, redirect to main app
+                    window.location.href = '/index.html';
+                }
+            } catch (error) {
+                // Not logged in, stay on login page
+                console.log('Not authenticated');
+            }
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>

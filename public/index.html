@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quest And Crossfire™ - AI LinkedIn Post Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+            background: #F5F5F0;
+            color: #333333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: #2C2C2C;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .diamond {
+            color: #D4A574;
+            font-size: 28px;
+            margin: 10px 0;
+        }
+
+        .tagline {
+            color: #D4A574;
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #B8B8B8;
+            font-style: italic;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            font-size: 18px;
+            color: #2C2C2C;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-section h2::before {
+            content: '◇';
+            color: #D4A574;
+            margin-right: 10px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E0E0E0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #D4A574;
+            box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+        }
+
+        select {
+            cursor: pointer;
+            background: white;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 200px;
+            font-family: inherit;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-generate {
+            background: #D4A574;
+            color: #2C2C2C;
+            margin-top: 20px;
+        }
+
+        .btn-publish {
+            background: #5A9FA8;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .btn-reset {
+            background: transparent;
+            color: #888;
+            border: 1px solid #E0E0E0;
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 12px;
+        }
+
+        .message {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .message.show {
+            display: flex;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .message-success {
+            background: #E8F4F5;
+            color: #2C2C2C;
+            border-left: 4px solid #5A9FA8;
+        }
+
+        .message-error {
+            background: #F4E8D8;
+            color: #2C2C2C;
+            border-left: 4px solid #D4A574;
+        }
+
+        .message-diamond {
+            color: #D4A574;
+            font-weight: bold;
+        }
+
+        #generatedSection {
+            display: none;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        #generatedSection.show {
+            display: block;
+        }
+
+        .rotating {
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        footer {
+            background: #2C2C2C;
+            color: #B8B8B8;
+            padding: 30px;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        footer .diamond {
+            font-size: 20px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            header {
+                padding: 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Quest And Crossfire™</div>
+            <div class="diamond">◇</div>
+            <div class="tagline">Small fixes, big clarity.</div>
+            <div class="subtitle">AI LinkedIn Post Generator - Where chaos becomes clarity</div>
+        </header>
+
+        <main>
+            <div id="messageContainer"></div>
+
+            <form id="postForm">
+                <div class="form-section">
+                    <h2>Your Core Message</h2>
+                    <label for="theme">Theme / Core Idea</label>
+                    <input
+                        type="text"
+                        id="theme"
+                        name="theme"
+                        placeholder="e.g., 'Breaking through career loops', 'Systems thinking in action'"
+                        required
+                    >
+                    <div class="help-text">What pattern or insight are you exploring?</div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Post Structure</h2>
+
+                    <label for="postType">Post Type</label>
+                    <select id="postType" name="postType" required>
+                        <option value="">Select a type...</option>
+                        <option value="Reflective Insight">◇ Reflective Insight - Share what you learned from experience</option>
+                        <option value="Systematic Approach">◇ Systematic Approach - Show how small fixes created clarity</option>
+                        <option value="Honest Struggle">◇ Honest Struggle - Raw truth about challenges and loops</option>
+                        <option value="Experimental Update">◇ Experimental Update - Document what you're trying</option>
+                        <option value="People-First Value">◇ People-First Value - How this serves others</option>
+                        <option value="Pattern Recognition">◇ Pattern Recognition - Connect dots, show structure</option>
+                    </select>
+
+                    <label for="depth" style="margin-top: 20px;">Depth</label>
+                    <select id="depth" name="depth" required>
+                        <option value="">Select depth...</option>
+                        <option value="Quick Insight (2-4 lines)">Quick Insight (2-4 lines) - Sharp, focused observation</option>
+                        <option value="Exploration (5-8 lines)">Exploration (5-8 lines) - Develop the idea with context</option>
+                        <option value="Deep Dive (10+ lines)">Deep Dive (10+ lines) - Full framework or story</option>
+                    </select>
+
+                    <label for="tone" style="margin-top: 20px;">Voice Tone</label>
+                    <select id="tone" name="tone" required>
+                        <option value="">Select tone...</option>
+                        <option value="Reflective & Thoughtful">Reflective & Thoughtful - "Here's what I noticed..."</option>
+                        <option value="Experimental & Curious">Experimental & Curious - "I tried this approach..."</option>
+                        <option value="Honest & Vulnerable">Honest & Vulnerable - "This is the raw truth..."</option>
+                        <option value="Systematic & Practical">Systematic & Practical - "Here's the framework..."</option>
+                        <option value="Encouraging & Relatable">Encouraging & Relatable - "We all face this loop..."</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-generate" id="generateBtn">
+                    <span id="generateIcon">◇</span>
+                    <span id="generateText">Generate Post</span>
+                </button>
+            </form>
+
+            <div id="generatedSection">
+                <div class="form-section">
+                    <h2>Your Draft (Edit Before Publishing)</h2>
+                    <div class="help-text" style="margin-bottom: 10px;">AI generated this. Make it yours.</div>
+                    <textarea id="generatedPost" placeholder="Your generated post will appear here..."></textarea>
+                    <div class="char-count">
+                        <span id="charCount">0</span> / 3000 characters
+                    </div>
+                </div>
+
+                <button type="button" class="btn-publish" id="publishBtn">
+                    <span>→</span>
+                    <span id="publishText">Publish to LinkedIn</span>
+                </button>
+
+                <button type="button" class="btn-reset" id="resetBtn">
+                    <span>↻</span>
+                    <span>Start Fresh</span>
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p><strong>Built with Quest And Crossfire philosophy:</strong></p>
+            <p>Systems Thinking + People First</p>
+            <p style="margin-top: 15px; font-style: italic;">"Does this serve the human using it?" <span class="diamond">◇</span></p>
+            <p style="margin-top: 15px; font-size: 11px; color: #888;">Powered by: n8n automation + OpenAI</p>
+        </footer>
+    </div>
+
+    <script>
+        // Check authentication on page load
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/check', {
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    // Not logged in, redirect to login page
+                    window.location.href = '/login.html';
+                    return false;
+                }
+
+                const data = await response.json();
+                if (!data.authenticated) {
+                    window.location.href = '/login.html';
+                    return false;
+                }
+
+                // User is authenticated
+                console.log('Authenticated as:', data.user.name);
+                return true;
+
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                window.location.href = '/login.html';
+                return false;
+            }
+        }
+
+        // Run auth check immediately
+        checkAuth();
+
+        // API endpoints - now using backend proxy (CORS-free!)
+        const GENERATE_WEBHOOK_URL = '/api/generate';
+        const PUBLISH_WEBHOOK_URL = '/api/publish';
+
+        // Store post ID from generation
+        let currentPostId = null;
+
+        // DOM elements
+        const postForm = document.getElementById('postForm');
+        const generateBtn = document.getElementById('generateBtn');
+        const generateIcon = document.getElementById('generateIcon');
+        const generateText = document.getElementById('generateText');
+        const generatedSection = document.getElementById('generatedSection');
+        const generatedPost = document.getElementById('generatedPost');
+        const charCount = document.getElementById('charCount');
+        const publishBtn = document.getElementById('publishBtn');
+        const publishText = document.getElementById('publishText');
+        const resetBtn = document.getElementById('resetBtn');
+        const messageContainer = document.getElementById('messageContainer');
+
+        // Character counter
+        generatedPost.addEventListener('input', () => {
+            const length = generatedPost.value.length;
+            charCount.textContent = length;
+            if (length > 3000) {
+                charCount.style.color = '#D4A574';
+            } else {
+                charCount.style.color = '#888';
+            }
+        });
+
+        // Show message
+        function showMessage(text, type = 'success') {
+            messageContainer.innerHTML = `
+                <div class="message message-${type} show">
+                    <span class="message-diamond">◇</span>
+                    <span>${text}</span>
+                </div>
+            `;
+            setTimeout(() => {
+                const msg = messageContainer.querySelector('.message');
+                if (msg) msg.classList.remove('show');
+            }, 5000);
+        }
+
+        // Generate post
+        postForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                theme: document.getElementById('theme').value,
+                post_type: document.getElementById('postType').value,
+                length: document.getElementById('depth').value,
+                tone: document.getElementById('tone').value,
+                brand_context: 'Quest And Crossfire - Small fixes, big clarity. Reflective, honest, systematic. People First filter.'
+            };
+
+            // Show loading state
+            generateBtn.disabled = true;
+            generateIcon.classList.add('rotating');
+            generateText.textContent = 'Thinking...';
+
+            try {
+                const response = await fetch(GENERATE_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Generation failed');
+                }
+
+                const data = await response.json();
+                const generatedText = data.post_text;
+                currentPostId = data.post_id; // Store for publishing
+
+                // Display generated post
+                generatedPost.value = generatedText;
+                charCount.textContent = generatedText.length;
+                generatedSection.classList.add('show');
+
+                showMessage('Draft ready. Make it yours before publishing.', 'success');
+
+                // Scroll to generated section
+                generatedSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Hmm, connection hiccup. Try again?', 'error');
+            } finally {
+                // Reset button state
+                generateBtn.disabled = false;
+                generateIcon.classList.remove('rotating');
+                generateText.textContent = 'Generate Post';
+            }
+        });
+
+        // Publish to LinkedIn
+        publishBtn.addEventListener('click', async () => {
+            const postText = generatedPost.value.trim();
+
+            if (!postText) {
+                showMessage("Can't publish an empty post. Add your message first.", 'error');
+                return;
+            }
+
+            if (postText.length > 3000) {
+                showMessage('Post is too long. LinkedIn limit is 3000 characters.', 'error');
+                return;
+            }
+
+            // Show loading state
+            publishBtn.disabled = true;
+            publishText.textContent = 'Publishing...';
+
+            const publishData = {
+                post_text: postText,
+                post_id: currentPostId, // Include database ID
+                metadata: {
+                    theme: document.getElementById('theme').value,
+                    post_type: document.getElementById('postType').value,
+                    length: document.getElementById('depth').value,
+                    tone: document.getElementById('tone').value,
+                    brand: 'Quest And Crossfire'
+                }
+            };
+
+            try {
+                const response = await fetch(PUBLISH_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(publishData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Publishing failed');
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessage('Published. Your clarity is live on LinkedIn.', 'success');
+
+                    // Optional: Reset form after successful publish
+                    setTimeout(() => {
+                        if (confirm('Post published! Create another one?')) {
+                            resetForm();
+                        }
+                    }, 2000);
+                } else {
+                    throw new Error('Publishing failed');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Hmm, couldn\'t publish. Check connection and try again?', 'error');
+            } finally {
+                publishBtn.disabled = false;
+                publishText.textContent = 'Publish to LinkedIn';
+            }
+        });
+
+        // Reset form
+        resetBtn.addEventListener('click', () => {
+            if (confirm('Start fresh? This will clear your current draft.')) {
+                resetForm();
+            }
+        });
+
+        function resetForm() {
+            postForm.reset();
+            generatedPost.value = '';
+            charCount.textContent = '0';
+            generatedSection.classList.remove('show');
+            messageContainer.innerHTML = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
