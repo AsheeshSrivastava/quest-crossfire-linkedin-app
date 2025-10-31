@@ -370,6 +370,39 @@
     </div>
 
     <script>
+        // Check authentication on page load
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/check', {
+                    credentials: 'include'
+                });
+
+                if (!response.ok || response.status === 401) {
+                    // Not authenticated, redirect to login
+                    window.location.href = '/login.html';
+                    return false;
+                }
+
+                const data = await response.json();
+                if (!data.authenticated) {
+                    window.location.href = '/login.html';
+                    return false;
+                }
+
+                // User is authenticated
+                console.log('Authenticated as:', data.user?.name || 'User');
+                return true;
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                // On error, redirect to login to be safe
+                window.location.href = '/login.html';
+                return false;
+            }
+        }
+
+        // Check auth immediately when page loads
+        checkAuth();
+
         // API endpoints - now using backend proxy (CORS-free!)
         const GENERATE_WEBHOOK_URL = '/api/generate';
         const PUBLISH_WEBHOOK_URL = '/api/publish';
@@ -435,6 +468,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    credentials: 'include',
                     body: JSON.stringify(formData)
                 });
 
@@ -500,6 +534,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    credentials: 'include',
                     body: JSON.stringify(publishData)
                 });
 

@@ -1,5 +1,6 @@
 // Vercel Serverless Function - Publish to LinkedIn
 // This acts as a proxy to avoid CORS issues
+import { getUserFromRequest } from '../lib/auth.js';
 
 export default async function handler(req, res) {
   // Enable CORS for your frontend
@@ -17,6 +18,12 @@ export default async function handler(req, res) {
   // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Check authentication
+  const user = getUserFromRequest(req);
+  if (!user) {
+    return res.status(401).json({ error: 'Unauthorized. Please login first.' });
   }
 
   try {
