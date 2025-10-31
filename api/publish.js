@@ -1,9 +1,7 @@
 // Vercel Serverless Function - Publish to LinkedIn
-// This acts as a proxy to avoid CORS issues and updates database
-import { requireAuth } from '../lib/auth.js';
-import { supabaseAdmin } from '../lib/supabase.js';
+// This acts as a proxy to avoid CORS issues
 
-async function handler(req, res) {
+export default async function handler(req, res) {
   // Enable CORS for your frontend
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -48,23 +46,6 @@ async function handler(req, res) {
     // Get response from n8n
     const publishResult = await n8nResponse.json();
 
-    // Update database if post_id provided
-    if (post_id && publishResult.success) {
-      const { error } = await supabaseAdmin
-        .from('posts')
-        .update({
-          status: 'published',
-          published_at: new Date().toISOString(),
-          linkedin_post_urn: publishResult.postUrn || null
-        })
-        .eq('id', post_id)
-        .eq('user_id', req.user.userId); // Ensure user owns the post
-
-      if (error) {
-        console.error('Database update error:', error);
-      }
-    }
-
     // Return to frontend
     res.status(200).json(publishResult);
 
@@ -76,6 +57,3 @@ async function handler(req, res) {
     });
   }
 }
-
-// Export with auth requirement
-export default requireAuth(handler);

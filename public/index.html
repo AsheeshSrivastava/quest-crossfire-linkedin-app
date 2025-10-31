@@ -370,45 +370,9 @@
     </div>
 
     <script>
-        // Check authentication on page load
-        async function checkAuth() {
-            try {
-                const response = await fetch('/api/auth/check', {
-                    credentials: 'include'
-                });
-
-                if (!response.ok) {
-                    // Not logged in, redirect to login page
-                    window.location.href = '/login.html';
-                    return false;
-                }
-
-                const data = await response.json();
-                if (!data.authenticated) {
-                    window.location.href = '/login.html';
-                    return false;
-                }
-
-                // User is authenticated
-                console.log('Authenticated as:', data.user.name);
-                return true;
-
-            } catch (error) {
-                console.error('Auth check failed:', error);
-                window.location.href = '/login.html';
-                return false;
-            }
-        }
-
-        // Run auth check immediately
-        checkAuth();
-
         // API endpoints - now using backend proxy (CORS-free!)
         const GENERATE_WEBHOOK_URL = '/api/generate';
         const PUBLISH_WEBHOOK_URL = '/api/publish';
-
-        // Store post ID from generation
-        let currentPostId = null;
 
         // DOM elements
         const postForm = document.getElementById('postForm');
@@ -471,7 +435,6 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    credentials: 'include',
                     body: JSON.stringify(formData)
                 });
 
@@ -479,9 +442,7 @@
                     throw new Error('Generation failed');
                 }
 
-                const data = await response.json();
-                const generatedText = data.post_text;
-                currentPostId = data.post_id; // Store for publishing
+                const generatedText = await response.text();
 
                 // Display generated post
                 generatedPost.value = generatedText;
@@ -524,7 +485,6 @@
 
             const publishData = {
                 post_text: postText,
-                post_id: currentPostId, // Include database ID
                 metadata: {
                     theme: document.getElementById('theme').value,
                     post_type: document.getElementById('postType').value,
@@ -540,7 +500,6 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    credentials: 'include',
                     body: JSON.stringify(publishData)
                 });
 
