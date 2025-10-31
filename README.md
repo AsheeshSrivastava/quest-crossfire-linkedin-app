@@ -4,7 +4,9 @@
 
 An AI-powered LinkedIn post generator that embodies Quest And Crossfire philosophy: Systems Thinking + People First.
 
-🔗 **Live:** `linkedin.questandcrossfire.com` (after deployment)
+🔗 **Live:** https://quest-crossfire-linkedin-9r71nnxiv.vercel.app
+📦 **GitHub:** https://github.com/AsheeshSrivastava/quest-crossfire-linkedin-app
+✅ **Status:** WORKING IN PRODUCTION
 
 ---
 
