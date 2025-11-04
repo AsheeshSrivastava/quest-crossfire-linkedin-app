@@ -277,7 +277,8 @@ quest-crossfire-linkedin-app/
 
 ## ❓ Questions & Support
 
-- **Email:** asheeshsrivastava9@gmail.com
+- **Email:** asheesh.srivastava@questabdcrossfire.com
+- **LinkedIn:** [linkedin.com/in/asheesh-ranjan-srivastava](https://www.linkedin.com/in/asheesh-ranjan-srivastava/)
 - **Issues:** Open a GitHub issue with the `question` label
 - **Documentation:** Check `DEPLOYMENT-GUIDE.md` and `ARCHITECTURE.md`
 - **Auth Issues:** See `AUTH-FIX-QUICKSTART.md`
