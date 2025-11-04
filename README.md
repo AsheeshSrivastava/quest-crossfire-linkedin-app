@@ -205,7 +205,20 @@ Publish post to LinkedIn.
 
 ## 📝 License
 
-MIT License - Quest And Crossfire™ is a trademark of Asheesh Ranjan Srivastava
+**AGPL-3.0 License** - See [LICENSE](LICENSE) file for details.
+
+**Trademarks:** QUEST AND CROSSFIRE™ is a registered trademark (Filed - awaiting certification).
+Code is open source under AGPL-3.0, but trademark usage requires permission.
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- Development setup
+- Code standards
+- Pull request process
+- Security guidelines
 
 ---
 

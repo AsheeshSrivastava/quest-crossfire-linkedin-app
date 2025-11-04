@@ -1,0 +1,54 @@
+GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3, 19 November 2007
+
+Copyright (C) 2025 Asheesh Ranjan Srivastava
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+================================================================================
+
+ADDITIONAL NOTICES
+
+Trademarks:
+- QUEST AND CROSSFIRE™ (Filed - awaiting certification)
+- AETHELGARD ACADEMY™ (Filed - awaiting certification)
+- AETHELGARD AXIS™ (Filed - awaiting certification)
+
+These trademarks are proprietary and not covered by the AGPL-3.0 license.
+Use of these marks requires explicit permission.
+
+AI Assistance:
+This project was developed with assistance from:
+- Claude Code (Anthropic)
+- OpenAI GPT-4o
+
+The author retains copyright while making the code freely available under AGPL-3.0.
+
+Third-Party Services:
+This application integrates with:
+- LinkedIn API (subject to LinkedIn's Terms of Service)
+- n8n workflow automation
+- Vercel serverless hosting
+- OpenAI API
+
+Users are responsible for complying with the terms of service of any external
+APIs and services they use with this application.
+
+Educational Context:
+This project was created as part of the OutSkill AI Engineering Bootcamp 2025 (Day 5).
+
+================================================================================
+
+For the complete AGPL-3.0 license text, see:
+https://www.gnu.org/licenses/agpl-3.0.txt
